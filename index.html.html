@@ -1,0 +1,805 @@
+<html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Budget Karo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- External CSS -->
+    <link rel="stylesheet" href="styles.css" />
+    <!-- Chart.js for graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <div class="app-inner">
+        <div class="blur-orb orb-1"></div>
+        <div class="blur-orb orb-2"></div>
+        <div class="blur-orb orb-3"></div>
+
+        <!-- LOGIN VIEW -->
+        <div id="loginView">
+          <div class="login-card">
+            <div class="login-header">
+              <div class="login-title-block">
+                <h1>Budget Karo</h1>
+                <span>Secure multi-device budgeting workspace</span>
+              </div>
+              <div class="badge-pill">
+                <span class="badge-dot"></span>
+                <span>Private Session</span>
+              </div>
+            </div>
+            <div class="login-form-group">
+              <div class="login-label">
+                <span>Username</span>
+              </div>
+              <div style="position: relative">
+                <span class="input-icon">👤</span>
+                <input
+                  id="loginUser"
+                  class="login-input"
+                  placeholder="Enter username"
+                  autocomplete="off"
+                />
+              </div>
+            </div>
+            <div class="login-form-group">
+              <div class="login-label">
+                <span>Password</span>
+              </div>
+              <div style="position: relative">
+                <span class="input-icon">🔒</span>
+                <input
+                  id="loginPass"
+                  type="password"
+                  class="login-input"
+                  placeholder="Enter password"
+                  autocomplete="off"
+                />
+              </div>
+              <div class="form-row-inline">
+                <a class="link-muted" id="forgotPasswordLink"
+                  >Forgot password?</a
+                >
+              </div>
+            </div>
+            <div class="login-footer">
+              <button class="btn-primary" id="loginBtn">
+                Sign in to Dashboard
+              </button>
+              <div class="login-hint">
+                Demo access – credentials are validated locally only.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MAIN APP -->
+        <div id="appMain" class="app-main" style="display: none">
+          <aside class="sidebar">
+            <div>
+              <div class="brand-row">
+                <div class="brand-logo">BK</div>
+                <div class="brand-text">
+                  <span>Personal finance studio</span>
+                  <strong>Budget Karo</strong>
+                </div>
+              </div>
+              <div style="margin-top: 12px">
+                <div class="sidebar-section-label">Overview</div>
+                <ul class="nav-list">
+                  <li class="nav-item active" data-view="dashboardView">
+                    <div class="nav-item-icon">📊</div>
+                    <span>Dashboard</span>
+                  </li>
+                  <li class="nav-item" data-view="transactionsView">
+                    <div class="nav-item-icon">₹</div>
+                    <span>Transactions</span>
+                  </li>
+                  <li class="nav-item" data-view="investView">
+                    <div class="nav-item-icon">📈</div>
+                    <span>Invest &amp; SIP</span>
+                  </li>
+                  <li class="nav-item" data-view="taxView">
+                    <div class="nav-item-icon">📑</div>
+                    <span>Tax &amp; Regimes</span>
+                  </li>
+                  <li class="nav-item" data-view="billsView">
+                    <div class="nav-item-icon">⏰</div>
+                    <span>Bills &amp; Reminders</span>
+                  </li>
+                  <li class="nav-item" data-view="profileView">
+                    <div class="nav-item-icon">👤</div>
+                    <span>Profile &amp; Banks</span>
+                  </li>
+                  <li class="nav-item" data-view="tradingView">
+                    <div class="nav-item-icon">🌐</div>
+                    <span>Trading (Demo)</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="sidebar-bottom">
+              <div>
+                <div class="sidebar-section-label">Language</div>
+                <select id="languageSelect" class="language-select">
+                  <option value="en">English</option>
+                  <option value="hi">Hindi</option>
+                  <option value="bn">Bengali</option>
+                  <option value="te">Telugu</option>
+                  <option value="mr">Marathi</option>
+                  <option value="ta">Tamil</option>
+                  <option value="gu">Gujarati</option>
+                  <option value="kn">Kannada</option>
+                  <option value="ml">Malayalam</option>
+                  <option value="or">Odia</option>
+                  <option value="pa">Punjabi</option>
+                  <option value="as">Assamese</option>
+                  <option value="ur">Urdu</option>
+                  <option value="ne">Nepali</option>
+                  <option value="sd">Sindhi</option>
+                  <option value="sa">Sanskrit</option>
+                  <option value="bo">Bodo</option>
+                  <option value="sat">Santhali</option>
+                  <option value="mai">Maithili</option>
+                  <option value="doi">Dogri</option>
+                  <option value="kok">Konkani</option>
+                  <option value="mni">Manipuri</option>
+                </select>
+              </div>
+              <div class="theme-toggle-wrap">
+                <div class="theme-toggle-label">Theme</div>
+                <div class="theme-toggle" id="themeToggle">
+                  <div class="theme-toggle-glow"></div>
+                  <div class="theme-toggle-inner"></div>
+                  <div class="theme-toggle-knob"></div>
+                </div>
+              </div>
+              <div class="sidebar-user-mini">
+                <div
+                  style="
+                    width: 22px;
+                    height: 22px;
+                    border-radius: 999px;
+                    background: linear-gradient(135deg, #4f46e5, #e11d48);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 11px;
+                  "
+                >
+                  A
+                </div>
+                <div>
+                  <div>ALONEPROFESSOR</div>
+                  <div style="font-size: 10px; color: var(--muted)">
+                    Secure demo profile
+                  </div>
+                </div>
+              </div>
+            </div>
+          </aside>
+
+          <main class="content">
+            <header class="content-header">
+              <div class="page-title-block">
+                <h2 id="pageTitle">Dashboard</h2>
+                <span id="pageSubtitle"
+                  >Unified view of spending, savings and goals</span
+                >
+              </div>
+              <div class="header-meta">
+                <div class="chip">
+                  <span class="chip-dot"></span>
+                  <span id="currentTimeLabel"></span>
+                </div>
+                <div class="chip">
+                  <span>INR workspace • Local only</span>
+                </div>
+              </div>
+            </header>
+
+            <section class="main-panels">
+              <!-- LEFT PANEL -->
+              <section class="panel">
+                <div class="panel-header">
+                  <div>
+                    <div class="panel-title" id="primaryPanelTitle">
+                      Spending overview
+                    </div>
+                    <div class="panel-sub" id="primaryPanelSub">
+                      Track your income, expenses and net position
+                    </div>
+                  </div>
+                  <span class="tag-pill">Real-time INR</span>
+                </div>
+
+                <!-- DASHBOARD VIEW -->
+                <div id="dashboardView" class="view active">
+                  <div class="summary-grid">
+                    <div class="summary-card">
+                      <div
+                        class="summary-label"
+                        data-i18n="summaryInflows"
+                      >
+                        Total Inflows
+                      </div>
+                      <div class="summary-value" id="sumCredit">₹0</div>
+                      <div class="summary-trend positive">
+                        Stable cash visibility
+                      </div>
+                    </div>
+                    <div class="summary-card">
+                      <div
+                        class="summary-label"
+                        data-i18n="summaryOutflows"
+                      >
+                        Total Outflows
+                      </div>
+                      <div class="summary-value" id="sumDebit">₹0</div>
+                      <div class="summary-trend negative">
+                        Monitor discretionary spend
+                      </div>
+                    </div>
+                    <div class="summary-card">
+                      <div class="summary-label" data-i18n="summaryNet">
+                        Net Position
+                      </div>
+                      <div class="summary-value" id="sumNet">₹0</div>
+                      <div class="summary-trend" id="netTrendLabel">
+                        Aligned with goals
+                      </div>
+                    </div>
+                  </div>
+                  <div class="section-tabs">
+                    <button
+                      class="section-tab active"
+                      data-subview="dashCharts"
+                    >
+                      Charts
+                    </button>
+                    <button class="section-tab" data-subview="dashRecent">
+                      Recent Activity
+                    </button>
+                  </div>
+                  <div id="dashCharts" class="view active">
+                    <div class="canvas-wrap" style="height: 210px">
+                      <canvas id="barChart"></canvas>
+                    </div>
+                  </div>
+                  <div id="dashRecent" class="view">
+                    <div
+                      class="transactions-table-wrap"
+                      style="height: 220px"
+                    >
+                      <table>
+                        <thead>
+                          <tr>
+                            <th>When</th>
+                            <th>Type</th>
+                            <th>Account</th>
+                            <th>Category</th>
+                            <th>Amount</th>
+                          </tr>
+                        </thead>
+                        <tbody id="recentBody"></tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- TRANSACTIONS VIEW -->
+                <div id="transactionsView" class="view">
+                  <div class="form-grid">
+                    <div class="field">
+                      <label>Type</label>
+                      <select id="txType">
+                        <option value="credit">Credit (Income)</option>
+                        <option value="debit">Debit (Expense)</option>
+                      </select>
+                    </div>
+                    <div class="field">
+                      <label>Amount (₹)</label>
+                      <input
+                        id="txAmount"
+                        class="input"
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        placeholder="0.00"
+                      />
+                    </div>
+                    <div class="field">
+                      <label>Category</label>
+                      <input
+                        id="txCategory"
+                        class="input"
+                        placeholder="Salary, Rent, Groceries..."
+                      />
+                    </div>
+                    <div class="field">
+                      <label>Account</label>
+                      <input
+                        id="txAccount"
+                        class="input"
+                        placeholder="HDFC Savings, UPI..."
+                      />
+                    </div>
+                    <div class="field">
+                      <label>Notes</label>
+                      <input
+                        id="txNote"
+                        class="input"
+                        placeholder="Optional description"
+                      />
+                    </div>
+                    <div class="field">
+                      <label>&nbsp;</label>
+                      <button class="btn-secondary" id="addTxBtn">
+                        Add transaction
+                      </button>
+                    </div>
+                  </div>
+                  <div
+                    style="
+                      display: flex;
+                      justify-content: space-between;
+                      align-items: center;
+                      margin-bottom: 6px;
+                    "
+                  >
+                    <span class="panel-sub"
+                      >All entries are time-stamped with current system
+                      date &amp; time.</span
+                    >
+                    <button class="btn-secondary" id="downloadTxBtn">
+                      Download as tables
+                    </button>
+                  </div>
+                  <div class="transactions-table-wrap">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Date</th>
+                          <th>Time</th>
+                          <th>Type</th>
+                          <th>Account</th>
+                          <th>Category</th>
+                          <th>Note</th>
+                          <th>Amount</th>
+                        </tr>
+                      </thead>
+                      <tbody id="txBody"></tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <!-- INVEST & SIP VIEW -->
+                <div id="investView" class="view">
+                  <div class="section-tabs">
+                    <button
+                      class="section-tab active"
+                      data-subview="sipView"
+                    >
+                      SIP Calculator
+                    </button>
+                    <button class="section-tab" data-subview="swpView">
+                      SWP Calculator
+                    </button>
+                  </div>
+                  <div id="sipView" class="view active">
+                    <div class="form-grid">
+                      <div class="field">
+                        <label>Monthly SIP (₹)</label>
+                        <input
+                          id="sipAmount"
+                          class="input"
+                          type="number"
+                          min="0"
+                        />
+                      </div>
+                      <div class="field">
+                        <label>Expected Return (% p.a.)</label>
+                        <input
+                          id="sipRate"
+                          class="input"
+                          type="number"
+                          min="0"
+                          step="0.1"
+                        />
+                      </div>
+                      <div class="field">
+                        <label>Tenure (years)</label>
+                        <input
+                          id="sipYears"
+                          class="input"
+                          type="number"
+                          min="0"
+                          step="0.5"
+                        />
+                      </div>
+                      <div class="field">
+                        <label>&nbsp;</label>
+                        <button class="btn-secondary" id="calcSipBtn">
+                          Calculate SIP Value
+                        </button>
+                      </div>
+                    </div>
+                    <ul class="small-list">
+                      <li>
+                        <span>Invested Amount</span>
+                        <span id="sipInvested">₹0</span>
+                      </li>
+                      <li>
+                        <span>Est. Future Value</span>
+                        <span id="sipFuture">₹0</span>
+                      </li>
+                      <li>
+                        <span>Wealth Gain</span>
+                        <span id="sipGain">₹0</span>
+                      </li>
+                    </ul>
+                  </div>
+                  <div id="swpView" class="view">
+                    <div class="form-grid">
+                      <div class="field">
+                        <label>Initial Corpus (₹)</label>
+                        <input
+                          id="swpCorpus"
+                          class="input"
+                          type="number"
+                          min="0"
+                        />
+                      </div>
+                      <div class="field">
+                        <label>Monthly Withdrawal (₹)</label>
+                        <input
+                          id="swpWithdrawal"
+                          class="input"
+                          type="number"
+                          min="0"
+                        />
+                      </div>
+                      <div class="field">
+                        <label>Expected Return (% p.a.)</label>
+                        <input
+                          id="swpRate"
+                          class="input"
+                          type="number"
+                          min="0"
+                          step="0.1"
+                        />
+                      </div>
+                      <div class="field">
+                        <label>&nbsp;</label>
+                        <button class="btn-secondary" id="calcSwpBtn">
+                          Estimate Duration
+                        </button>
+                      </div>
+                    </div>
+                    <ul class="small-list">
+                      <li>
+                        <span>Approx. Months Corpus Lasts</span>
+                        <span id="swpMonths">0</span>
+                      </li>
+                      <li>
+                        <span>Approx. Years</span>
+                        <span id="swpYears">0</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <!-- TAX VIEW -->
+                <div id="taxView" class="view">
+                  <div class="section-tabs">
+                    <button
+                      class="section-tab active"
+                      data-subview="oldRegimeView"
+                    >
+                      Old Regime
+                    </button>
+                    <button
+                      class="section-tab"
+                      data-subview="newRegimeView"
+                    >
+                      New Regime
+                    </button>
+                  </div>
+                  <div id="oldRegimeView" class="view active">
+                    <div class="form-grid">
+                      <div class="field">
+                        <label>Gross Income (₹)</label>
+                        <input
+                          id="oldIncome"
+                          class="input"
+                          type="number"
+                          min="0"
+                        />
+                      </div>
+                      <div class="field">
+                        <label>Deductions (₹)</label>
+                        <input
+                          id="oldDeductions"
+                          class="input"
+                          type="number"
+                          min="0"
+                        />
+                      </div>
+                      <div class="field">
+                        <label>&nbsp;</label>
+                        <button
+                          class="btn-secondary"
+                          id="calcOldTaxBtn"
+                        >
+                          Compute Old Regime
+                        </button>
+                      </div>
+                    </div>
+                    <ul class="small-list">
+                      <li>
+                        <span>Net Taxable</span>
+                        <span id="oldNet">₹0</span>
+                      </li>
+                      <li>
+                        <span>Income Tax</span>
+                        <span id="oldTax">₹0</span>
+                      </li>
+                      <li>
+                        <span>Health &amp; Edu Cess (4%)</span>
+                        <span id="oldCess">₹0</span>
+                      </li>
+                      <li>
+                        <span>Total with Cess</span>
+                        <span id="oldTotal">₹0</span>
+                      </li>
+                    </ul>
+                  </div>
+                  <div id="newRegimeView" class="view">
+                    <div class="form-grid">
+                      <div class="field">
+                        <label>Taxable Income (₹)</label>
+                        <input
+                          id="newIncome"
+                          class="input"
+                          type="number"
+                          min="0"
+                        />
+                      </div>
+                      <div class="field">
+                        <label>&nbsp;</label>
+                        <button
+                          class="btn-secondary"
+                          id="calcNewTaxBtn"
+                        >
+                          Compute New Regime
+                        </button>
+                      </div>
+                    </div>
+                    <ul class="small-list">
+                      <li>
+                        <span>Net Taxable</span>
+                        <span id="newNet">₹0</span>
+                      </li>
+                      <li>
+                        <span>Income Tax</span>
+                        <span id="newTax">₹0</span>
+                      </li>
+                      <li>
+                        <span>Health &amp; Edu Cess (4%)</span>
+                        <span id="newCess">₹0</span>
+                      </li>
+                      <li>
+                        <span>Total with Cess</span>
+                        <span id="newTotal">₹0</span>
+                      </li>
+                      <li>
+                        <span>Regime Comparison (Old vs New)</span>
+                        <span id="taxCompareNote">–</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <!-- BILLS VIEW -->
+                <div id="billsView" class="view">
+                  <div class="form-grid">
+                    <div class="field">
+                      <label>Bill Type</label>
+                      <input
+                        id="billName"
+                        class="input"
+                        placeholder="Electricity, Rent, Internet..."
+                      />
+                    </div>
+                    <div class="field">
+                      <label>Amount (₹)</label>
+                      <input
+                        id="billAmount"
+                        class="input"
+                        type="number"
+                        min="0"
+                      />
+                    </div>
+                    <div class="field">
+                      <label>Due Date</label>
+                      <input id="billDue" class="input" type="date" />
+                    </div>
+                    <div class="field">
+                      <label>&nbsp;</label>
+                      <button class="btn-secondary" id="addBillBtn">
+                        Add Reminder
+                      </button>
+                    </div>
+                  </div>
+                  <ul class="small-list" id="billsList"></ul>
+                </div>
+
+                <!-- PROFILE VIEW -->
+                <div id="profileView" class="view">
+                  <div class="profile-grid">
+                    <div class="profile-section">
+                      <div class="panel-title">Profile details</div>
+                      <div class="panel-sub">
+                        Maintain personal contact details for reference
+                      </div>
+                      <div class="profile-row" style="margin-top: 8px">
+                        <div class="field">
+                          <label>Full Name</label>
+                          <input
+                            id="profileName"
+                            class="input"
+                            placeholder="Your name"
+                          />
+                        </div>
+                        <div class="field">
+                          <label>Date of Birth</label>
+                          <input
+                            id="profileDob"
+                            class="input"
+                            type="date"
+                          />
+                        </div>
+                        <div class="field">
+                          <label>Phone Number</label>
+                          <input
+                            id="profilePhone"
+                            class="input"
+                            placeholder="+91-"
+                          />
+                        </div>
+                        <div class="field">
+                          <label>Email ID</label>
+                          <input
+                            id="profileEmail"
+                            class="input"
+                            type="email"
+                            placeholder="you@email.com"
+                          />
+                        </div>
+                      </div>
+                      <div style="margin-top: 10px">
+                        <button
+                          class="btn-secondary"
+                          id="saveProfileBtn"
+                        >
+                          Save profile (local)
+                        </button>
+                      </div>
+                    </div>
+                    <div class="profile-section">
+                      <div class="panel-title">Bank accounts</div>
+                      <div class="panel-sub">
+                        Track multiple account identifiers locally
+                      </div>
+                      <div class="profile-row" style="margin-top: 8px">
+                        <div class="field">
+                          <label>Holder Name</label>
+                          <input id="bankHolder" class="input" />
+                        </div>
+                        <div class="field">
+                          <label>Bank Account No.</label>
+                          <input id="bankAccount" class="input" />
+                        </div>
+                        <div class="field">
+                          <label>IFSC</label>
+                          <input id="bankIfsc" class="input" />
+                        </div>
+                        <div class="field">
+                          <label>&nbsp;</label>
+                          <button class="btn-secondary" id="addBankBtn">
+                            Add Bank
+                          </button>
+                        </div>
+                      </div>
+                      <div id="bankListWrap"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- TRADING VIEW (DEMO) -->
+                <div id="tradingView" class="view">
+                  <div class="panel-sub">
+                    Illustrative trading overview – static sample snapshots
+                    only.
+                  </div>
+                  <div
+                    class="transactions-table-wrap"
+                    style="margin-top: 8px; height: 230px"
+                  >
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Exchange</th>
+                          <th>Symbol</th>
+                          <th>LTP</th>
+                          <th>Change</th>
+                          <th>Region</th>
+                        </tr>
+                      </thead>
+                      <tbody id="tradingBody"></tbody>
+                    </table>
+                  </div>
+                  <ul class="small-list">
+                    <li>
+                      <span>Reference platforms</span>
+                      <span
+                        >Zerodha • Groww • Charles Schwab (UI
+                        aligned)</span
+                      >
+                    </li>
+                    <li>
+                      <span>Data mode</span>
+                      <span
+                        >Demo only – plug actual APIs on server
+                        later</span
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </section>
+
+              <!-- RIGHT PANEL -->
+              <section class="panel">
+                <div class="panel-header">
+                  <div>
+                    <div class="panel-title">Visual analytics</div>
+                    <div class="panel-sub">
+                      Category-wise splits and cash-flow mix
+                    </div>
+                  </div>
+                  <span class="tag-pill">Animated views</span>
+                </div>
+                <div class="canvas-wrap" style="height: 230px">
+                  <canvas id="pieChart"></canvas>
+                </div>
+                <div style="margin-top: 10px">
+                  <ul class="small-list">
+                    <li>
+                      <span>Theme &amp; motion</span>
+                      <span
+                        >Glass morphic gradients · Smooth
+                        transitions</span
+                      >
+                    </li>
+                    <li>
+                      <span>Security posture</span>
+                      <span>Client-side only · No external storage</span>
+                    </li>
+                    <li>
+                      <span>Language coverage</span>
+                      <span>Framework ready for 22 Indian languages</span>
+                    </li>
+                  </ul>
+                </div>
+              </section>
+            </section>
+          </main>
+        </div>
+      </div>
+    </div>
+
+    <!-- External JS -->
+    <script src="script.js"></script>
+  </body>
+</html>
